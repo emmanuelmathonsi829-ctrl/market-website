@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Account | Vertex Market</title>
+
+    <link rel="stylesheet" href="css/auth.css">
+    <script src="js/auth.js" defer></script>
+</head>
+<body>
+
+    <main class="auth-container">
+        <a href="index.html" class="brand">VERTEX <span>MARKET.</span></a>
+
+        <section class="auth-card">
+
+            <div class="auth-heading">
+                <p class="eyebrow">YOUR ACCOUNT</p>
+                <h1 id="formTitle">Welcome back.</h1>
+                <p id="formSubtitle">
+                    Sign in.
+                </p>
+            </div>
+
+            <div class="form-switch">
+                <button type="button" id="loginTab" class="switch-btn active">
+                    Log in
+                </button>
+                <button type="button" id="signupTab" class="switch-btn">
+                    Sign up
+                </button>
+            </div>
+
+            <div id="message" class="message" role="status"
+                 aria-live="polite" hidden></div>
+
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email address</label>
+                    <input
+                        type="email"
+                        id="loginEmail"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Log in <span>→</span>
+                </button>
+            </form>
+
+
+            <form id="signupForm" hidden>
+                <div class="form-group">
+                    <label for="signupEmail">Email address</label>
+                    <input
+                        type="email"
+                        id="signupEmail"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">Create password</label>
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        name="password"
+                        placeholder="At least 8 characters"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+                    <small>Use at least 8 characters.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm password</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Enter your password again"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Create account <span>→</span>
+                </button>
+            </form>
+
+            <p class="terms">
+                By continuing, you agree to our terms and privacy policy.
+            </p>
+
+            <a href="index.html" class="back-link">
+                ← Back to shopping
+            </a>
+
+        </section>
+
+        <footer>© 2026 Vertex Market. All rights reserved.</footer>
+    </main>
+
+</body>
+</html>

@@ -938,3 +938,197 @@ svg {
     transition-duration: 0.01ms !important;
   }
 }
+
+.sticky-header {
+    position: sticky !important;
+    top: 0;
+    z-index: 1000;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 4px 16px rgba(29, 31, 26, 0.04);
+}
+
+
+.header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+body {
+  padding-top: 90px;
+  padding-bottom: 85px;
+}
+
+.sign-in-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 1px solid #222;
+  border-radius: 999px;
+  color: #222;
+  background: transparent;
+  text-decoration: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sign-in-button:hover {
+  color: #fff;
+  background: #222;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .brand {
+    gap: 6px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .brand-mark svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .header-actions {
+    gap: 5px;
+  }
+
+  .sign-in-button {
+    padding: 8px 9px;
+    font-size: 11px;
+  }
+
+  .account-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 9px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .round-button {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+  }
+
+  .round-button svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .page-width {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  body {
+    padding-top: 75px;
+    padding-bottom: 85px;
+  }
+}
+
+@media (max-width: 380px) {
+  .header {
+    padding: 10px 8px;
+  }
+
+  .brand {
+    font-size: 12px;
+  }
+
+  .header-actions {
+    gap: 4px;
+  }
+
+  .sign-in-button,
+  .account-button {
+    padding: 7px;
+    font-size: 10px;
+  }
+
+  .round-button {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+  }
+}
+
+
+.bottom-nav {
+  position: fixed;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.bottom-nav .nav-button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .bottom-nav {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px 4px;
+  }
+
+  .bottom-nav .nav-button {
+    min-width: 0;
+    gap: 4px;
+    font-size: 11px;
+  }
+
+  .bottom-nav .nav-button svg {
+    width: 20px;
+    height: 20px;
+  }
+}
