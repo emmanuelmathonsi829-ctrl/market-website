@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap");
 
-/* 1. Global settings and base styles */
+
 :root {
   --ink: #1d1f1a;
   --paper: #f3f1eb;
@@ -57,7 +57,7 @@ img {
   margin-inline: auto;
 }
 
-/* 2. Header and action buttons */
+
 .header {
   display: flex;
   align-items: center;
@@ -153,7 +153,7 @@ img {
   display: grid;
 }
 
-/* 3. Hero section */
+
 .hero {
   display: grid;
   min-height: 580px;
@@ -304,7 +304,7 @@ img {
   color: var(--ink);
 }
 
-/* 4. Product catalogue, search, and filters */
+
 .products-section {
   padding-block: 78px;
   scroll-margin-top: 24px;
@@ -546,7 +546,7 @@ img {
   font-size: 14px;
 }
 
-/* 5. Promotional section */
+
 .promo {
   display: grid;
   overflow: hidden;
@@ -616,7 +616,7 @@ img {
   object-fit: cover;
 }
 
-/* 6. Fixed bottom navigation */
+
 .bottom-nav {
   position: fixed;
   z-index: 40;
@@ -662,7 +662,7 @@ img {
   fill: currentColor;
 }
 
-/* 7. Settings panel */
+
 .settings-panel {
   position: fixed;
   z-index: 55;
@@ -719,7 +719,7 @@ img {
   accent-color: var(--orange);
 }
 
-/* 8. Account modal and form */
+
 .modal-backdrop {
   position: fixed;
   z-index: 60;
@@ -797,7 +797,7 @@ img {
   text-align: center;
 }
 
-/* 9. Toast notifications and small animations */
+
 .toast {
   position: fixed;
   z-index: 80;
@@ -823,7 +823,7 @@ svg {
   flex: 0 0 auto;
 }
 
-/* 10. Animations */
+
 @keyframes reveal {
   from {
     transform: translateY(15px);
@@ -835,7 +835,7 @@ svg {
   }
 }
 
-/* 11. Responsive layout: tablets and small screens */
+
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
@@ -928,7 +928,7 @@ svg {
   }
 }
 
-/* 12. Accessibility: respect reduced-motion preferences */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

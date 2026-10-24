@@ -1,5 +1,3 @@
-// 1. PRODUCT CATALOGUE
-// Edit this list to add, remove, or update products.
 const products = [
   {
     id: 1,
@@ -98,9 +96,6 @@ const products = [
     image: "https://images.unsplash.com/photo-1706240175751-4ac7fa559d2b?auto=format&fit=crop&w=900&q=85",
   },
 ];
-
-// 2. APPLICATION STATE
-// These variables remember the shopper’s current selections. these values remember what the shopper selected.
 let activeCategory = "All";
 let showOnlyLiked = false;
 const likedProducts = new Set([2]);
@@ -118,9 +113,6 @@ const randFormatter = new Intl.NumberFormat("en-ZA", {
   currency: "ZAR",
   maximumFractionDigits: 0,
 });
-
-// 3. REUSABLE ICONS
-// SVG markup used inside product-card buttons. for product buttons.
 const heartIcon = `
   <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78Z"/>
@@ -130,9 +122,25 @@ const bagIcon = `
   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
     <path d="M5 8h14l-1 13H6L5 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/>
   </svg>`;
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[character]);
+}
 
-// 4. PRODUCT DISPLAY
-// Filter the catalogue and build the product cards. and applies search/category filters.
+function safeImageURL(value) {
+  try {
+    const url = new URL(value, window.location.origin);
+    return url.protocol === "https:" ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
 function renderProducts() {
   const query = searchInput.value.trim().toLowerCase();
   const filteredProducts = products.filter((product) => {
@@ -150,12 +158,12 @@ function renderProducts() {
       (product, index) => `
         <article class="product-card">
           <div class="product-image">
-            <img src="${product.image}" alt="${product.name}" />
-            <span class="product-tag">${index < 2 ? "New drop" : product.category}</span>
+            <img src="${escapeHTML(safeImageURL(product.image))}" alt="${escapeHTML(product.name)}" loading="lazy" />
+            <span class="product-tag">${index < 2 ? "New drop" : escapeHTML(product.category)}</span>
             <button
               class="like-button ${likedProducts.has(product.id) ? "liked" : ""}"
               data-like="${product.id}"
-              aria-label="${likedProducts.has(product.id) ? "Unlike" : "Like"} ${product.name}"
+              aria-label="${likedProducts.has(product.id) ? "Unlike" : "Like"} ${escapeHTML(product.name)}"
               type="button"
             >
               ${heartIcon}
@@ -163,8 +171,8 @@ function renderProducts() {
           </div>
           <div class="product-info">
             <div>
-              <p class="product-meta">${product.color} · ${product.category}</p>
-              <h3 class="product-name">${product.name}</h3>
+              <p class="product-meta">${escapeHTML(product.color)} · ${escapeHTML(product.category)}</p>
+              <h3 class="product-name">${escapeHTML(product.name)}</h3>
             </div>
             <p class="product-price">${randFormatter.format(product.price)}</p>
           </div>
@@ -183,9 +191,6 @@ function renderProducts() {
 
   emptyState.style.display = filteredProducts.length ? "none" : "block";
 }
-
-// 5. FEEDBACK AND CART COUNTER
-// Small helper functions used by several controls. at the top of the screen.
 let toastTimer;
 function showToast(message) {
   toast.textContent = message;
@@ -193,15 +198,10 @@ function showToast(message) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
 }
-
-// Updates the small number on the shopping bag.
 function updateCartCount() {
   cartCount.textContent = cartProducts.size;
   cartCount.classList.toggle("visible", cartProducts.size > 0);
 }
-
-// 6. PRODUCT ACTIONS
-// One delegated listener handles clicks on all product cards. use one listener for all product cards.
 productGrid.addEventListener("click", (event) => {
   const likeButton = event.target.closest("[data-like]");
   const cartButton = event.target.closest("[data-cart]");
@@ -227,8 +227,6 @@ productGrid.addEventListener("click", (event) => {
     renderProducts();
   }
 });
-
-// 7. SEARCH AND CATEGORY FILTERS
 searchInput.addEventListener("input", renderProducts);
 
 document.querySelectorAll(".category-button").forEach((button) => {
@@ -241,8 +239,6 @@ document.querySelectorAll(".category-button").forEach((button) => {
     renderProducts();
   });
 });
-
-// 8. ACCOUNT MODAL AND FORM VALIDATION
 function openAccount() {
   accountBackdrop.classList.add("open");
   document.body.classList.add("modal-open");
@@ -263,10 +259,23 @@ accountBackdrop.addEventListener("click", (event) => {
   if (event.target === accountBackdrop) closeAccount();
 });
 
-document.querySelector("#accountForm").addEventListener("submit", (event) => {
+const API_BASE_URL = window.VERTEX_API_BASE_URL || (
+  window.location.protocol === "file:" ? "http://127.0.0.1:5500" : window.location.origin
+);
+
+document.querySelector("#accountForm").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const passwordInput = event.currentTarget.elements.password;
-  const confirmPasswordInput = event.currentTarget.elements.confirmPassword;
+  const form = event.currentTarget;
+  const passwordInput = form.elements.password;
+  const confirmPasswordInput = form.elements.confirmPassword;
+  const submitButton = form.querySelector('button[type="submit"]');
+
+  if (passwordInput.value.length < 8) {
+    passwordInput.setCustomValidity("Use at least 8 characters.");
+    passwordInput.reportValidity();
+    return;
+  }
+  passwordInput.setCustomValidity("");
 
   if (passwordInput.value !== confirmPasswordInput.value) {
     confirmPasswordInput.setCustomValidity("Passwords do not match");
@@ -274,16 +283,34 @@ document.querySelector("#accountForm").addEventListener("submit", (event) => {
     return;
   }
 
-  event.target.reset();
-  closeAccount();
-  showToast("Your account is ready");
+  const originalText = submitButton.textContent;
+  submitButton.disabled = true;
+  submitButton.textContent = "Creating account…";
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/signup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: form.elements.email.value.trim(),
+        password: passwordInput.value
+      })
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || "Unable to create your account.");
+    form.reset();
+    closeAccount();
+    showToast("Account created. You can now sign in.");
+  } catch (error) {
+    showToast(error.message || "Unable to create your account.");
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = originalText;
+  }
 });
 
 document
   .querySelector('[name="confirmPassword"]')
   .addEventListener("input", (event) => event.target.setCustomValidity(""));
-
-// 9. SETTINGS PANEL
 document.querySelectorAll(".open-settings").forEach((button) => {
   button.addEventListener("click", () => {
     settingsPanel.classList.toggle("open");
@@ -293,8 +320,6 @@ document.querySelectorAll(".open-settings").forEach((button) => {
 document.querySelector("#closeSettings").addEventListener("click", () => {
   settingsPanel.classList.remove("open");
 });
-
-// 10. HEADER AND HERO BUTTONS
 document.querySelector("#brandButton").addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
@@ -310,8 +335,6 @@ document.querySelector("#cartIconButton").addEventListener("click", () => {
       : "Your cart is empty",
   );
 });
-
-// 11. BOTTOM NAVIGATION ACTIONS
 document.querySelectorAll(".nav-button").forEach((button) => {
   button.addEventListener("click", () => {
     document.querySelectorAll(".nav-button").forEach((item) => {
@@ -348,14 +371,10 @@ document.querySelectorAll(".nav-button").forEach((button) => {
     }
   });
 });
-
-// 12. KEYBOARD ACCESSIBILITY
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeAccount();
     settingsPanel.classList.remove("open");
   }
 });
-
-// 13. INITIAL PAGE RENDER
 renderProducts();

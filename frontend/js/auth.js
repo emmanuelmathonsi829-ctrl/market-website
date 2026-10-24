@@ -1,6 +1,6 @@
 
 
-const API_BASE_URL = "https://vertex-market-kk3y.onrender.com";
+const API_BASE_URL = window.VERTEX_API_BASE_URL || (window.location.protocol === "file:" ? "http://127.0.0.1:5500" : window.location.origin);
 
 const loginForm = document.querySelector("#loginForm");
 const signupForm = document.querySelector("#signupForm");
@@ -86,8 +86,6 @@ async function sendAuthRequest(endpoint, email, password, button) {
         button.innerHTML = originalText;
     }
 }
-
-// SIGN UP
 signupForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearMessage();
@@ -135,8 +133,6 @@ signupForm.addEventListener("submit", async (event) => {
         showMessage(error.message || "Unable to create your account.");
     }
 });
-
-// LOG IN
 loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     clearMessage();
