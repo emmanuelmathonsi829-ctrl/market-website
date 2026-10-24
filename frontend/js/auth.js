@@ -1,6 +1,6 @@
 
 
-const API_BASE_URL = window.VERTEX_API_BASE_URL || (window.location.protocol === "file:" ? "http://127.0.0.1:5500" : window.location.origin);
+const API_BASE_URL = window.VERTEX_API_BASE_URL || (window.location.protocol === "file:" ? "https://vertex-market-kk3y.onrender.com" : window.location.origin);
 
 const loginForm = document.querySelector("#loginForm");
 const signupForm = document.querySelector("#signupForm");
