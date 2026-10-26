@@ -1,7 +1,7 @@
+const API_BASE_URL = "https://vertex-market-kk3y.onrender.com"
+
 (() => {
-  const API_BASE_URL = window.VERTEX_API_BASE_URL || (
-    window.location.protocol === "file:" ? "https://vertex-market-kk3y.onrender.com" : window.location.origin
-  );
+
 
   const $ = (selector) => document.querySelector(selector);
   const loginPanel = $("#loginPanel");
