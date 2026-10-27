@@ -1,131 +1,81 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Account | Vertex Market</title>
-
-    <link rel="stylesheet" href="css/auth.css">
-    <script src="js/auth.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sign in to your Vertex Market account.">
+  <title>Login | Vertex Market</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
 </head>
-<body>
+<body class="login-page">
 
-    <main class="auth-container">
-        <a href="index.html" class="brand">VERTEX <span>MARKET.</span></a>
+  <header class="header page-width login-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      Vertex Market
+    </a>
+    <a class="login-back-link" href="index.html">← Back to shop</a>
+  </header>
 
-        <section class="auth-card">
+  <main class="login-main">
+    <section class="login-card">
+      <div class="login-icon" aria-hidden="true">✦</div>
 
-            <div class="auth-heading">
-                <p class="eyebrow">YOUR ACCOUNT</p>
-                <h1 id="formTitle">Welcome back.</h1>
-                <p id="formSubtitle">
-                    Sign in.
-                </p>
-            </div>
+      <p class="eyebrow">WELCOME BACK</p>
+      <h1>Sign <span>in.</span></h1>
+      <p class="login-description">
+        Enter your details to access your Vertex Market account.
+      </p>
 
-            <div class="form-switch">
-                <button type="button" id="loginTab" class="switch-btn active">
-                    Log in
-                </button>
-                <button type="button" id="signupTab" class="switch-btn">
-                    Sign up
-                </button>
-            </div>
+      <form id="loginForm" class="login-form">
+        <label for="email">Email address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
 
-            <div id="message" class="message" role="status"
-                 aria-live="polite" hidden></div>
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+        >
 
-            
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="loginEmail">Email address</label>
-                    <input
-                        type="email"
-                        id="loginEmail"
-                        name="email"
-                        placeholder="you@example.com"
-                        autocomplete="email"
-                        required
-                    >
-                </div>
+        <div class="login-options">
+          <label class="remember-option" for="remember">
+            <input type="checkbox" id="remember" name="remember">
+            Remember me
+          </label>
+          <a href="forgot-password.html">Forgot password?</a>
+        </div>
 
-                <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input
-                        type="password"
-                        id="loginPassword"
-                        name="password"
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
-                        required
-                    >
-                </div>
+        <button class="login-submit" type="submit">
+          Sign in <span aria-hidden="true">→</span>
+        </button>
 
-                <button type="submit" class="submit-btn">
-                    Log in <span>→</span>
-                </button>
-            </form>
+        <p id="loginMessage" class="login-message" role="status" aria-live="polite"></p>
+      </form>
 
+      <p class="register-prompt">
+        Don't have an account?
+        <a href="register.html">Create account</a>
+      </p>
+    </section>
+  </main>
 
-            <form id="signupForm" hidden>
-                <div class="form-group">
-                    <label for="signupEmail">Email address</label>
-                    <input
-                        type="email"
-                        id="signupEmail"
-                        name="email"
-                        placeholder="you@example.com"
-                        autocomplete="email"
-                        required
-                    >
-                </div>
+  <footer class="login-footer">
+    © 2026 Vertex Market. All rights reserved.
+  </footer>
 
-                <div class="form-group">
-                    <label for="signupPassword">Create password</label>
-                    <input
-                        type="password"
-                        id="signupPassword"
-                        name="password"
-                        placeholder="At least 8 characters"
-                        autocomplete="new-password"
-                        minlength="8"
-                        required
-                    >
-                    <small>Use at least 8 characters.</small>
-                </div>
-
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm password</label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        placeholder="Enter your password again"
-                        autocomplete="new-password"
-                        minlength="8"
-                        required
-                    >
-                </div>
-
-                <button type="submit" class="submit-btn">
-                    Create account <span>→</span>
-                </button>
-            </form>
-
-            <p class="terms">
-                By continuing, you agree to our terms and privacy policy.
-            </p>
-
-            <a href="index.html" class="back-link">
-                ← Back to shopping
-            </a>
-
-        </section>
-
-        <footer>© 2026 Vertex Market. All rights reserved.</footer>
-    </main>
-
+  <script src="js/login.js" defer></script>
 </body>
 </html>

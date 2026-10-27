@@ -1,0 +1,206 @@
+
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+
+.register-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.register-back-link {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.register-back-link:hover {
+  color: var(--orange);
+}
+
+.register-main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 40px 20px 60px;
+}
+
+.register-card {
+  width: 100%;
+  max-width: 460px;
+  padding: clamp(24px, 5vw, 42px);
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: var(--white);
+  box-shadow: 0 14px 40px rgba(29, 31, 26, 0.06);
+}
+
+.register-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 25px;
+  border-radius: 16px;
+  background: var(--lime);
+  color: var(--ink);
+  font-size: 25px;
+}
+
+.register-card .eyebrow {
+  margin-bottom: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.register-card h1 {
+  margin: 0 0 12px;
+  color: var(--ink);
+  font: 800 clamp(36px, 6vw, 48px)/1.1 "Manrope", sans-serif;
+  letter-spacing: -0.06em;
+}
+
+.register-card h1 span {
+  color: var(--orange);
+}
+
+.register-description {
+  margin-bottom: 28px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.register-form {
+  display: grid;
+  gap: 10px;
+}
+
+.register-form > label {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.register-form > input {
+  width: 100%;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  outline: none;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.register-form > input:focus {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(29, 31, 26, 0.07);
+}
+
+.password-hint {
+  margin: 2px 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.register-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 50px;
+  margin-top: 8px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.register-submit:hover {
+  background: var(--orange);
+  transform: translateY(-1px);
+}
+
+.register-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+
+.register-message {
+  min-height: 18px;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.register-message.error {
+  color: #b3422b;
+}
+
+.register-message.success {
+  color: #356a27;
+}
+
+.login-prompt {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.login-prompt a {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.login-prompt a:hover {
+  color: var(--orange);
+}
+
+.register-footer {
+  padding: 24px 16px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 12px;
+}
+
+@media (max-width: 480px) {
+  .register-header {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .register-main {
+    padding: 24px 16px 40px;
+  }
+
+  .register-card {
+    border-radius: 22px;
+  }
+}

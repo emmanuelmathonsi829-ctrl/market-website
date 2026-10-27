@@ -1,1 +1,1 @@
-Single-database configuration for Flask.
+Flask-Migrate database migration directory. Keep this directory when deploying existing databases.

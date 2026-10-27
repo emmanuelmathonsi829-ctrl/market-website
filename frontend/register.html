@@ -1,0 +1,76 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Create your Vertex Market account.">
+  <title>Register | Vertex Market</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/register.css">
+  <script src="js/register.js" defer></script>
+</head>
+<body class="register-page">
+
+  <header class="header page-width register-header">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      Vertex Market
+    </a>
+    <a class="register-back-link" href="index.html">← Back to shop</a>
+  </header>
+
+  <main class="register-main">
+    <section class="register-card">
+      <div class="register-icon" aria-hidden="true">✦</div>
+
+      <p class="eyebrow">JOIN VERTEX MARKET</p>
+      <h1>Create <span>account.</span></h1>
+      <p class="register-description">
+        Create your account to get started with Vertex Market.
+      </p>
+
+      <form id="registerForm" class="register-form">
+        <label for="email">Email address</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        >
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Create a password"
+          autocomplete="new-password"
+          minlength="8"
+          required
+        >
+
+        <p class="password-hint">Your password must contain at least 8 characters.</p>
+
+        <button class="register-submit" type="submit">
+          Create account <span aria-hidden="true">→</span>
+        </button>
+
+        <p id="registerMessage" class="register-message" role="status" aria-live="polite"></p>
+      </form>
+
+      <p class="login-prompt">
+        Already have an account?
+        <a href="login.html">Sign in</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="register-footer">
+    © 2026 Vertex Market. All rights reserved.
+  </footer>
+
+</body>
+</html>

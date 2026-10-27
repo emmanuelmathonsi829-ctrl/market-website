@@ -4,5 +4,5 @@ Flask-Migrate>=4.0,<5.0
 SQLAlchemy>=2.0,<3.0
 psycopg[binary]>=3.2,<4.0
 python-dotenv>=1.0,<2.0
-gunicorn>=22.0,<24.0
 PyJWT>=2.8,<3.0
+gunicorn>=22.0,<24.0

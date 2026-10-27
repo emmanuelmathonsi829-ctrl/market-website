@@ -1,0 +1,121 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Vertex Market administrator dashboard.">
+  <title>Admin Dashboard | Vertex Market</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="js/admin-dashboard.js" defer></script>
+</head>
+<body class="admin-page">
+  <header class="header page-width">
+    <a class="brand admin-brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      Vertex Market
+    </a>
+
+    <div class="header-actions admin-header-actions">
+      <div class="admin-identity" id="adminIdentity">
+        <span class="admin-avatar" aria-hidden="true">A</span>
+        <span class="admin-identity-copy">
+          <strong id="adminName">Administrator</strong>
+          <small id="adminEmailDisplay"></small>
+        </span>
+      </div>
+
+      <a class="admin-back-link" href="index.html">← Back to shop</a>
+      <button class="primary-button admin-logout" id="logoutBtn"
+        type="button">Log out</button>
+    </div>
+  </header>
+
+  <main class="page-width admin-main">
+    <section class="admin-intro">
+      <p class="eyebrow">Vertex Market / Control center</p>
+      <h1 class="display-font">Account <span>management.</span></h1>
+      <p>Review registered accounts and manage your community.</p>
+    </section>
+
+    <section id="dashboardPanel">
+      <div class="admin-toolbar">
+        <div>
+          <p class="eyebrow">Overview</p>
+          <h2>Registered accounts</h2>
+        </div>
+        <button class="admin-action-button secondary" id="refreshBtn"
+          type="button">Refresh accounts ↻</button>
+      </div>
+
+      <div class="admin-stats">
+        <article class="admin-stat-card">
+          <p>Total accounts</p>
+          <strong id="totalAccounts">—</strong>
+          <span>All registrations</span>
+        </article>
+
+        <article class="admin-stat-card">
+          <p>Verified</p>
+          <strong id="verifiedAccounts">—</strong>
+          <span>Verified email status</span>
+        </article>
+
+        <article class="admin-stat-card">
+          <p>Not verified</p>
+          <strong id="unverifiedAccounts">—</strong>
+          <span>Awaiting verification</span>
+        </article>
+      </div>
+
+      <section class="admin-table-card">
+        <div class="admin-table-heading">
+          <div>
+            <p class="eyebrow">Directory</p>
+            <h3>All accounts</h3>
+          </div>
+
+          <label class="admin-search-wrap">
+            <span class="visually-hidden">Search accounts</span>
+            <input type="search" id="searchInput"
+              placeholder="Search by email or ID…">
+          </label>
+        </div>
+
+        <p id="message" class="admin-message"
+          role="status" aria-live="polite"></p>
+
+        <div class="admin-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Email address</th>
+                <th>Status</th>
+                <th>Joined</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="accountsTable">
+              <tr>
+                <td colspan="5" class="admin-empty">
+                  Loading accounts…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <p class="admin-warning">
+        Deleting an account is permanent and cannot be undone.
+      </p>
+    </section>
+  </main>
+
+  <footer class="admin-footer">
+    © 2026 Vertex Market · Administrator area
+  </footer>
+</body>
+</html>

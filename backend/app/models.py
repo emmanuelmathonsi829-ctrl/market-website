@@ -1,9 +1,9 @@
 from datetime import datetime, timezone
 
-from extensions import db
+from .extensions import db
 
 
-class User_(db.Model):
+class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -16,5 +16,17 @@ class User_(db.Model):
         default=lambda: datetime.now(timezone.utc),
     )
 
+    def to_dict(self):
+        created_at = self.created_at
+        if created_at and created_at.tzinfo is None:
+            created_at = created_at.replace(tzinfo=timezone.utc)
+
+        return {
+            "id": self.id,
+            "email": self.email,
+            "is_verified": self.is_verified,
+            "created_at": created_at.isoformat() if created_at else None,
+        }
+
     def __repr__(self):
-        return f"<User_ {self.email}>"
+        return f"<User {self.email}>"

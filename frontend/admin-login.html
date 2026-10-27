@@ -1,0 +1,62 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Vertex Market administrator sign in.">
+  <title>Admin Sign In | Vertex Market</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="js/admin-login.js" defer></script>
+</head>
+<body class="admin-page">
+  <header class="header page-width">
+    <a class="brand admin-brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      Vertex Market
+    </a>
+    <a class="admin-back-link" href="index.html">← Back to shop</a>
+  </header>
+
+  <main class="page-width admin-main">
+    <section class="admin-intro">
+      <p class="eyebrow">Vertex Market / Control center</p>
+      <h1 class="display-font">Administrator <span>sign in.</span></h1>
+      <p>Sign in to securely manage registered accounts.</p>
+    </section>
+
+    <section class="admin-login-card">
+      <div class="admin-section-heading">
+        <p class="eyebrow">Restricted access</p>
+        <h2>Welcome back</h2>
+        <p>Use your administrator credentials to continue.</p>
+      </div>
+
+      <form id="adminLoginForm" class="admin-login-form">
+        <label for="adminEmail">Email address
+          <input type="email" id="adminEmail" autocomplete="username"
+            required placeholder="admin@example.com">
+        </label>
+
+        <label for="adminPassword">Password
+          <input type="password" id="adminPassword"
+            autocomplete="current-password" required
+            placeholder="Administrator password">
+        </label>
+
+        <button class="admin-action-button" type="submit">
+          Sign in <span aria-hidden="true">→</span>
+        </button>
+      </form>
+
+      <p id="loginMessage" class="admin-message"
+        role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="admin-footer">
+    © 2026 Vertex Market · Administrator area
+  </footer>
+</body>
+</html>
