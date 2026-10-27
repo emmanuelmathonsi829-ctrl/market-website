@@ -1,46 +1,35 @@
+
 import hmac
 import os
-from datetime import datetime, timedelta, timezone
+import time
+from datetime import timedelta
 from functools import wraps
 
-import jwt
-from flask import Blueprint, current_app, jsonify, request
+from flask import Blueprint, current_app, jsonify, request, session
 from sqlalchemy import select
 
 from ..extensions import db
 from ..models import User
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/api/admin")
-TOKEN_LIFETIME_MINUTES = 30
-
-
-def read_admin_token():
-    authorization = request.headers.get("Authorization", "")
-    scheme, _, token = authorization.partition(" ")
-
-    if scheme.lower() != "bearer" or not token:
-        return None
-
-    try:
-        payload = jwt.decode(
-            token,
-            current_app.config["SECRET_KEY"],
-            algorithms=["HS256"],
-        )
-    except (jwt.ExpiredSignatureError, jwt.InvalidTokenError, KeyError):
-        return None
-
-    if payload.get("role") != "admin" or payload.get("sub") != "vertex-admin":
-        return None
-
-    return payload
+SESSION_LIFETIME_SECONDS = 1800
 
 
 def admin_required(view):
     @wraps(view)
     def wrapped(*args, **kwargs):
-        if read_admin_token() is None:
-            return jsonify({"error": "Your administrator session has expired. Please sign in again."}), 401
+        login_time = session.get("admin_login_time")
+
+        if (
+            session.get("admin_authenticated") is not True
+            or not isinstance(login_time, (int, float))
+            or time.time() - login_time > SESSION_LIFETIME_SECONDS
+        ):
+            session.clear()
+            return jsonify({
+                "error": "Your administrator session has expired. Please sign in again."
+            }), 401
+
         return view(*args, **kwargs)
 
     return wrapped
@@ -62,32 +51,32 @@ def admin_login():
     email = email.strip().lower()
     configured_email = os.getenv("ADMIN_EMAIL", "").strip().lower()
     configured_password = os.getenv("ADMIN_PASSWORD", "")
+    configured_name = os.getenv("ADMIN_NAME", "").strip() or "Administrator"
 
     if not configured_email or not configured_password:
         current_app.logger.error("Administrator login environment variables are missing.")
-        return jsonify({"error": "Administrator login is not configured on the server."}), 500
+        return jsonify({
+            "error": "Administrator login is not configured on the server."
+        }), 500
 
-    email_matches = hmac.compare_digest(email, configured_email)
-    password_matches = hmac.compare_digest(password, configured_password)
-
-    if not email_matches or not password_matches:
+    if not hmac.compare_digest(email, configured_email) or not hmac.compare_digest(password, configured_password):
         return jsonify({"error": "Invalid administrator email or password."}), 401
 
-    now = datetime.now(timezone.utc)
-    token = jwt.encode(
-        {
-            "sub": "vertex-admin",
-            "role": "admin",
-            "iat": now,
-            "exp": now + timedelta(minutes=TOKEN_LIFETIME_MINUTES),
-        },
-        current_app.config["SECRET_KEY"],
-        algorithm="HS256",
+    session.clear()
+    session.permanent = True
+    current_app.permanent_session_lifetime = timedelta(
+        seconds=SESSION_LIFETIME_SECONDS
     )
+    session["admin_authenticated"] = True
+    session["admin_login_time"] = time.time()
+    session["admin_email"] = configured_email
+    session["admin_name"] = configured_name
 
     return jsonify({
-        "token": token,
-        "admin": {"name": "Administrator", "email": configured_email},
+        "admin": {
+            "name": configured_name,
+            "email": configured_email
+        }
     }), 200
 
 
@@ -97,9 +86,9 @@ def admin_session():
     return jsonify({
         "authenticated": True,
         "admin": {
-            "name": "Administrator",
-            "email": os.getenv("ADMIN_EMAIL", "").strip().lower(),
-        },
+            "name": session.get("admin_name", "Administrator"),
+            "email": session.get("admin_email", "")
+        }
     }), 200
 
 
@@ -112,7 +101,7 @@ def list_users():
 
     return jsonify({
         "users": [user.to_dict() for user in users],
-        "total": len(users),
+        "total": len(users)
     }), 200
 
 
@@ -131,11 +120,14 @@ def delete_user(user_id):
     except Exception:
         db.session.rollback()
         current_app.logger.exception("Unable to delete user account")
-        return jsonify({"error": "Unable to delete this account right now."}), 500
+        return jsonify({
+            "error": "Unable to delete this account right now."
+        }), 500
 
     return jsonify({"message": "Account deleted successfully."}), 200
 
 
 @admin_bp.route("/logout", methods=["POST"])
 def admin_logout():
+    session.clear()
     return jsonify({"message": "Administrator signed out."}), 200
