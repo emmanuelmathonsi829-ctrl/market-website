@@ -1,4 +1,4 @@
-const API_BASE_URL = window.location.origin;
+const API_BASE_URL = "https://market-website-f3k0.onrender.com";
 const registerForm = document.getElementById("registerForm");
 const registerButton = registerForm.querySelector('button[type="submit"]');
 const registerMessage = document.getElementById("registerMessage");

@@ -1,5 +1,5 @@
 
-const API_BASE_URL = "https://vertex-market-kk3y.onrender.com";
+const API_BASE_URL = "https://market-website-f3k0.onrender.com";
 
 (() => {
   const $ = (selector) => document.querySelector(selector);
