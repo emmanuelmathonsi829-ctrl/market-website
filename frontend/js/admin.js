@@ -1,6 +1,5 @@
 
 const API_BASE_URL = "https://vertex-market-kk3y.onrender.com";
-const TOKEN_KEY = "vertex_admin_jwt";
 
 (() => {
   const $ = (selector) => document.querySelector(selector);
@@ -22,7 +21,6 @@ const TOKEN_KEY = "vertex_admin_jwt";
   }
 
   function showLogin() {
-    sessionStorage.removeItem(TOKEN_KEY);
     loginPanel.hidden = false;
     dashboardPanel.hidden = true;
     logoutBtn.hidden = true;
@@ -42,25 +40,26 @@ const TOKEN_KEY = "vertex_admin_jwt";
 
   async function api(path, options = {}) {
     const headers = { ...options.headers };
-    const token = sessionStorage.getItem(TOKEN_KEY);
 
     if (options.body) {
       headers["Content-Type"] = "application/json";
     }
 
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-
     const response = await fetch(`${API_BASE_URL}${path}`, {
       ...options,
-      headers
+      headers,
+      credentials: "include"
     });
 
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(data.error || data.message || "Request failed.");
+      const error = new Error(
+        data.error || data.message || "Request failed."
+      );
+
+      error.status = response.status;
+      throw error;
     }
 
     return data;
@@ -68,10 +67,18 @@ const TOKEN_KEY = "vertex_admin_jwt";
 
   function updateStats() {
     $("#totalAccounts").textContent = accounts.length;
+
     $("#verifiedAccounts").textContent =
       accounts.filter(user => user.is_verified).length;
+
     $("#unverifiedAccounts").textContent =
       accounts.filter(user => !user.is_verified).length;
+  }
+
+  function addCell(row, value) {
+    const cell = document.createElement("td");
+    cell.textContent = String(value ?? "");
+    row.appendChild(cell);
   }
 
   function renderAccounts() {
@@ -111,13 +118,20 @@ const TOKEN_KEY = "vertex_admin_jwt";
       status.className = `admin-status ${
         user.is_verified ? "verified" : "unverified"
       }`;
-      status.textContent = user.is_verified ? "Verified" : "Not verified";
+
+      status.textContent = user.is_verified
+        ? "Verified"
+        : "Not verified";
+
       statusCell.appendChild(status);
       row.appendChild(statusCell);
 
-      addCell(row, user.created_at
-        ? new Date(user.created_at).toLocaleString()
-        : "Unknown");
+      addCell(
+        row,
+        user.created_at
+          ? new Date(user.created_at).toLocaleString()
+          : "Unknown"
+      );
 
       const actionCell = document.createElement("td");
       const button = document.createElement("button");
@@ -125,7 +139,9 @@ const TOKEN_KEY = "vertex_admin_jwt";
       button.type = "button";
       button.className = "admin-delete-button";
       button.textContent = "Delete";
-      button.addEventListener("click", () => deleteAccount(user, button));
+      button.addEventListener("click", () =>
+        deleteAccount(user, button)
+      );
 
       actionCell.appendChild(button);
       row.appendChild(actionCell);
@@ -133,25 +149,21 @@ const TOKEN_KEY = "vertex_admin_jwt";
     });
   }
 
-  function addCell(row, value) {
-    const cell = document.createElement("td");
-    cell.textContent = String(value ?? "");
-    row.appendChild(cell);
-  }
-
   async function loadAccounts() {
     showMessage(message, "Loading accounts...");
 
     try {
       const data = await api("/api/admin/users");
+
       accounts = Array.isArray(data.users) ? data.users : [];
+
       updateStats();
       renderAccounts();
       showMessage(message, "");
     } catch (error) {
       showMessage(message, error.message, "error");
 
-      if ([401, 403].includes(error.status)) {
+      if (error.status === 401 || error.status === 403) {
         showLogin();
       }
     }
@@ -177,6 +189,7 @@ const TOKEN_KEY = "vertex_admin_jwt";
     event.preventDefault();
 
     const button = loginForm.querySelector('button[type="submit"]');
+
     button.disabled = true;
     showMessage(loginMessage, "Signing in...");
 
@@ -189,11 +202,10 @@ const TOKEN_KEY = "vertex_admin_jwt";
         })
       });
 
-      if (!data.token || !data.admin) {
+      if (!data.admin) {
         throw new Error("Invalid administrator response.");
       }
 
-      sessionStorage.setItem(TOKEN_KEY, data.token);
       loginForm.reset();
       showDashboard(data.admin);
       await loadAccounts();
@@ -205,18 +217,23 @@ const TOKEN_KEY = "vertex_admin_jwt";
   });
 
   async function deleteAccount(user, button) {
-    if (!confirm(`Delete ${user.email}? This cannot be undone.`)) return;
+    if (!confirm(`Delete ${user.email}? This cannot be undone.`)) {
+      return;
+    }
 
     button.disabled = true;
 
     try {
-      await api(`/api/admin/users/${encodeURIComponent(user.id)}`, {
-        method: "DELETE"
-      });
+      await api(
+        `/api/admin/users/${encodeURIComponent(user.id)}`,
+        { method: "DELETE" }
+      );
 
       accounts = accounts.filter(item => item.id !== user.id);
+
       updateStats();
       renderAccounts();
+
       showMessage(message, "Account deleted successfully.", "success");
     } catch (error) {
       showMessage(message, error.message, "error");
@@ -230,11 +247,14 @@ const TOKEN_KEY = "vertex_admin_jwt";
   logoutBtn.addEventListener("click", async () => {
     try {
       await api("/api/admin/logout", { method: "POST" });
-    } catch {
+    } catch (error) {
+      showMessage(message, error.message, "error");
+      return;
     }
 
     showLogin();
     $("#adminIdentity").hidden = true;
+
     showMessage(loginMessage, "You have been logged out.", "success");
   });
 
