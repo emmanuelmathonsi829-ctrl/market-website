@@ -1,39 +1,29 @@
 
-.login-page {
+.auth-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px 24px;
   background: var(--paper);
 }
 
-.login-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding-top: 24px;
-  padding-bottom: 24px;
-}
-
-.login-back-link {
+.brand {
+  display: inline-block;
+  margin-bottom: 30px;
   color: var(--ink);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.06em;
   text-decoration: none;
-  font-size: 13px;
-  font-weight: 700;
 }
 
-.login-back-link:hover {
+.brand span {
   color: var(--orange);
 }
 
-.login-main {
-  flex: 1;
-  display: grid;
-  place-items: center;
-  padding: 40px 20px 60px;
-}
-
-.login-card {
+.auth-card {
   width: 100%;
   max-width: 460px;
   padding: clamp(24px, 5vw, 42px);
@@ -43,58 +33,92 @@
   box-shadow: 0 14px 40px rgba(29, 31, 26, 0.06);
 }
 
-.login-icon {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  margin-bottom: 25px;
-  border-radius: 16px;
-  background: var(--lime);
-  color: var(--ink);
-  font-size: 25px;
+.auth-heading {
+  margin-bottom: 26px;
 }
 
-.login-card .eyebrow {
+.auth-heading .eyebrow {
   margin-bottom: 10px;
+  color: var(--orange);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.12em;
 }
 
-.login-card h1 {
+.auth-heading h1 {
   margin: 0 0 12px;
-  font: 800 clamp(38px, 6vw, 52px)/1.05 "Manrope", sans-serif;
-  letter-spacing: -0.06em;
   color: var(--ink);
+  font-size: clamp(34px, 6vw, 46px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.06em;
 }
 
-.login-card h1 span {
-  color: var(--orange);
-}
-
-.login-description {
-  margin-bottom: 28px;
+.auth-heading > p:last-child {
+  margin-bottom: 0;
   color: var(--muted);
   font-size: 14px;
   line-height: 1.7;
 }
 
-.login-form {
+.form-switch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 24px;
+  padding: 5px;
+  border-radius: 14px;
+  background: var(--paper);
+}
+
+.switch-btn {
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.switch-btn.active {
+  background: var(--white);
+  color: var(--ink);
+  box-shadow: 0 2px 8px rgba(29, 31, 26, 0.07);
+}
+
+.switch-btn:hover {
+  color: var(--orange);
+}
+
+#loginForm {
   display: grid;
   gap: 10px;
 }
 
-.login-form > label {
+#loginForm .form-group {
+  display: grid;
+  gap: 8px;
+}
+
+#loginForm label {
   margin-top: 8px;
+  color: var(--ink);
   font-size: 13px;
   font-weight: 700;
 }
 
-.login-form > input {
+#loginForm input[type="email"],
+#loginForm input[type="password"] {
+  box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  padding: 14px 16px;
+  min-height: 48px;
+  padding: 13px 15px;
   border: 1px solid var(--line);
   border-radius: 14px;
   outline: none;
@@ -105,9 +129,19 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.login-form > input:focus {
+#loginForm input[type="email"]:focus,
+#loginForm input[type="password"]:focus {
   border-color: var(--ink);
   box-shadow: 0 0 0 3px rgba(29, 31, 26, 0.07);
+}
+
+#loginForm input:focus-visible,
+.switch-btn:focus-visible,
+.login-submit:focus-visible,
+.login-options a:focus-visible,
+.register-prompt a:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
 }
 
 .login-options {
@@ -120,10 +154,11 @@
   font-size: 12px;
 }
 
-.remember-option {
+#loginForm .remember-option {
   display: flex;
   align-items: center;
   gap: 7px;
+  margin: 0;
   color: var(--muted);
   cursor: pointer;
 }
@@ -157,6 +192,7 @@
   border-radius: 999px;
   background: var(--ink);
   color: var(--white);
+  font: inherit;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -174,18 +210,20 @@
   transform: none;
 }
 
+.message,
 .login-message {
-  min-height: 18px;
-  margin: 4px 0 0;
+  margin: 8px 0;
   color: var(--muted);
   font-size: 13px;
   line-height: 1.5;
 }
 
+.message.error,
 .login-message.error {
   color: #b3422b;
 }
 
+.message.success,
 .login-message.success {
   color: #356a27;
 }
@@ -202,26 +240,38 @@
 
 .login-footer {
   padding: 24px 16px;
+  background: var(--paper);
   color: var(--muted);
   text-align: center;
   font-size: 12px;
 }
 
 @media (max-width: 480px) {
-  .login-header {
-    padding-top: 18px;
-    padding-bottom: 18px;
+  .auth-container {
+    padding: 28px 16px 20px;
   }
 
-  .login-main {
-    padding: 24px 16px 40px;
+  .brand {
+    margin-bottom: 22px;
   }
 
-  .login-card {
+  .auth-card {
+    padding: 24px 20px;
     border-radius: 22px;
   }
 
   .login-options {
     align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switch-btn,
+  .login-submit {
+    transition: none;
+  }
+
+  .login-submit:hover {
+    transform: none;
   }
 }
